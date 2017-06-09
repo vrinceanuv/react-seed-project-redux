@@ -1,6 +1,8 @@
+import * as types from '../constants/actionTypes';
+
 const loaderReducer = (state = false, action) => {
   switch(action.type) {
-    case 'UPDATE_LOADER':
+    case types.UPDATE_LOADER:
       return action.loaded;
 
     default:

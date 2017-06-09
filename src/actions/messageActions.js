@@ -1,7 +1,5 @@
-export const updateMessage = (message) => {
-  return { type: 'UPDATE_MESSAGE', message };
-}
+import * as types from '../constants/actionTypes';
 
-export const updateErrorMessage = (message) => {
-  return { type: 'UPDATE_ERROR_MESSAGE', message };
+export const updateMessage = (message) => {
+  return { type: types.UPDATE_MESSAGE, message };
 }

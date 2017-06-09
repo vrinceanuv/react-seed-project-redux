@@ -1,9 +1,11 @@
+import * as types from '../constants/actionTypes';
+
 const itemReducer = (state = [], action) => {
   switch(action.type) {
-    case 'ADD_ITEM':
+    case types.ADD_ITEM:
       return [...state, Object.assign({}, action.item)];
 
-    case 'REMOVE_ITEM':
+    case types.REMOVE_ITEM:
       const removeIndex = state.findIndex(item => item.id === action.id)
 
       return [
@@ -11,7 +13,7 @@ const itemReducer = (state = [], action) => {
         ...state.slice(removeIndex + 1)
       ]
 
-    case 'UPDATE_DATA':
+    case types.UPDATE_DATA:
       return [...state, ...action.items];
 
     default:
