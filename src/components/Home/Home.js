@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import './Home.css';
 import {ItemList, ItemForm} from '../Item';
 import {loadItems, createItem, deleteItem} from '../../libs/ajax';
 import {generateId} from '../../libs/utils';
-import {itemActions, messageActions, currentItemActions, loaderActions} from '../../actions';
+import * as actions from '../../actions';
 
 class Home extends Component {
   componentDidMount() {
       loadItems()
         .then(items => {
-          this.props.updateItems(items)
-          this.props.updateLoader(true)
+          this.props.actions.updateItems(items)
+          this.props.actions.updateLoader(true)
         })
   }
 
@@ -24,7 +25,7 @@ class Home extends Component {
 
     deleteItem(id)
       .then(() => {
-        this.props.removeItem(id)
+        this.props.actions.removeItem(id)
         this.displayMessage(succesMessage);
       },
       () => { this.displayMessage(errorMessage) }
@@ -34,8 +35,8 @@ class Home extends Component {
   displayMessage = (message) => {
     const clearMessage = {'type': null, 'message': ''}
 
-    this.props.updateMessage(message)
-    setTimeout(() => this.props.updateMessage(clearMessage), 2500)
+    this.props.actions.updateMessage(message)
+    setTimeout(() => this.props.actions.updateMessage(clearMessage), 2500)
   }
 
   handleSubmit = (event) => {
@@ -49,7 +50,7 @@ class Home extends Component {
     createItem(newItem)
       .then(
         () => {
-          this.props.addItem(newItem)
+          this.props.actions.addItem(newItem)
           this.displayMessage(succesMessage);
         },
         () => { this.displayMessage(errorMessage) }
@@ -64,7 +65,7 @@ class Home extends Component {
   }
 
   handleInputValue = (event) => {
-    this.props.updateCurrentItem(event.currentTarget.value)
+    this.props.actions.updateCurrentItem(event.currentTarget.value)
   }
 
   render() {
@@ -107,12 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addItem: item => dispatch(itemActions.addItem(item)),
-    removeItem: id => dispatch(itemActions.removeItem(id)),
-    updateCurrentItem: value => dispatch(currentItemActions.updateCurrentItem(value)),
-    updateItems: items => dispatch(itemActions.updateItems(items)),
-    updateLoader: loaded => dispatch(loaderActions.updateLoader(loaded)),
-    updateMessage: message => dispatch(messageActions.updateMessage(message))
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 
