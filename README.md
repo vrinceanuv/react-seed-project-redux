@@ -1,7 +1,7 @@
 ## React with Redux Seed Project
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-In addition to what 'Create React App' offered, here has been added the router, and some simple examples in order to get started fast.
+In addition to what 'Create React App' offered, here has been added the router, redux, and some simple examples in order to get started fast.
 
 ## Local mock server
 I have added a local mock server with some data using 'json server'
