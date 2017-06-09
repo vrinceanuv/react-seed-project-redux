@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
+import {loadItems} from './libs/ajax';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import NotFound from './components/NotFound/NotFound';
@@ -11,6 +12,7 @@ import './index.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 const store = configureStore();
+store.dispatch(loadItems());
 
 ReactDOM.render(
   <Provider store={store}>

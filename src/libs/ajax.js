@@ -1,9 +1,17 @@
+import * as actions from '../actions';
+
 // The url to your API server
 const baseURL = 'http://localhost:8080/items'
 
 export const loadItems = () => {
-  return fetch(baseURL)
-    .then(response => response.json())
+  return function (dispatch) {
+    return fetch(baseURL)
+      .then(items => items.json())
+      .then(items => {
+        dispatch(actions.updateItems(items))
+        dispatch(actions.updateLoader(true))
+      })
+  }
 }
 
 export const createItem = (item) => {

@@ -3,19 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import './Home.css';
 import {ItemList, ItemForm} from '../Item';
-import {loadItems, createItem, deleteItem} from '../../libs/ajax';
+import {createItem, deleteItem} from '../../libs/ajax';
 import {generateId} from '../../libs/utils';
 import * as actions from '../../actions';
 
 class Home extends Component {
-  componentDidMount() {
-      loadItems()
-        .then(items => {
-          this.props.actions.updateItems(items)
-          this.props.actions.updateLoader(true)
-        })
-  }
-
   handleRemove = (id, event) => {
     event.preventDefault()
 
@@ -98,6 +90,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state)
   return {
     items: state.items,
     currentItem: state.currentItem,
