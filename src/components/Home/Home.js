@@ -10,8 +10,8 @@ class Home extends Component {
   componentDidMount() {
       loadItems()
         .then(items => {
-          this.props.dispatch(itemActions.updateItems(items))
-          this.props.dispatch(loaderActions.updateLoader(items))
+          this.props.updateItems(items)
+          this.props.updateLoader(true)
         })
   }
 
@@ -24,7 +24,7 @@ class Home extends Component {
 
     deleteItem(id)
       .then(() => {
-        this.props.dispatch(itemActions.removeItem(id))
+        this.props.removeItem(id)
         this.displayMessage(succesMessage);
       },
       () => { this.displayMessage(errorMessage) }
@@ -34,8 +34,8 @@ class Home extends Component {
   displayMessage = (message) => {
     const clearMessage = {'type': null, 'message': ''}
 
-    this.props.dispatch(messageActions.updateMessage(message))
-    setTimeout(() => this.props.dispatch(messageActions.updateMessage(clearMessage)), 2500)
+    this.props.updateMessage(message)
+    setTimeout(() => this.props.updateMessage(clearMessage), 2500)
   }
 
   handleSubmit = (event) => {
@@ -49,7 +49,7 @@ class Home extends Component {
     createItem(newItem)
       .then(
         () => {
-          this.props.dispatch(itemActions.addItem(newItem))
+          this.props.addItem(newItem)
           this.displayMessage(succesMessage);
         },
         () => { this.displayMessage(errorMessage) }
@@ -64,7 +64,7 @@ class Home extends Component {
   }
 
   handleInputValue = (event) => {
-    this.props.dispatch(currentItemActions.updateCurrentItem(event.currentTarget.value))
+    this.props.updateCurrentItem(event.currentTarget.value)
   }
 
   render() {
@@ -96,7 +96,7 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   return {
     items: state.items,
     currentItem: state.currentItem,
@@ -105,4 +105,15 @@ function mapStateToProps (state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => {
+  return {
+    addItem: item => dispatch(itemActions.addItem(item)),
+    removeItem: id => dispatch(itemActions.removeItem(id)),
+    updateCurrentItem: value => dispatch(currentItemActions.updateCurrentItem(value)),
+    updateItems: items => dispatch(itemActions.updateItems(items)),
+    updateLoader: loaded => dispatch(loaderActions.updateLoader(loaded)),
+    updateMessage: message => dispatch(messageActions.updateMessage(message))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
