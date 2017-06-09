@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {ItemDisplay} from './ItemDisplay';
 
 export const ItemList = (props) => {
-  console.log(props);
   return (
     <div className="Item-List">
       <ul>
