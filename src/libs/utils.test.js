@@ -2,7 +2,6 @@ import {partial} from './utils'
 
 const add = (a, b) => a + b
 const addThree = (a, b, c) => a + b + c
-const inc = (num) => num + 1
 
 test('partial applies the first argument ahead of time', () => {
   const inc = partial (add, 1)

@@ -53,7 +53,7 @@
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.2",
-    "redux-immutable-state-invariant": "1.2.3"
+    "react-test-renderer": "15.5.4"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",

@@ -14,7 +14,6 @@ class Home extends Component {
     const succesMessage = {'type': 'success', 'text': 'Item removed!'}
     const errorMessage = {'type': 'error', 'text': 'There was an issue while removing your item!'}
 
-
     deleteItem(id)
       .then(() => {
         this.props.actions.removeItem(id)
@@ -62,6 +61,7 @@ class Home extends Component {
 
   render() {
     const submitHandler = this.props.currentItem ? this.handleSubmit : this.handleEmptySubmit
+    console.log(this.props);
 
     return (
       <div className="App">
@@ -90,7 +90,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state)
   return {
     items: state.items,
     currentItem: state.currentItem,
