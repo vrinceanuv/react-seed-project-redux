@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {shallow} from 'enzyme';
 import {ItemDisplay} from '../ItemDisplay';
 
 const setup = () => {
@@ -9,32 +9,21 @@ const setup = () => {
     name: ''
   };
 
-  const renderer = new ReactShallowRenderer();
-  renderer.render(<ItemDisplay {...props}/>);
-
-  let output = renderer.getRenderOutput();
-
-  return {
-    props,
-    output,
-    renderer
-  }
+  return shallow(<ItemDisplay {...props}/>);
 }
 
 describe('Testing ItemDisplay stateless component markup', () => {
-  const { output } = setup();
+  const wrapper = setup();
 
   it('ItemDisplay should Render and to be a li element', () => {
-    expect(output.type).toBe('li');
+    expect(wrapper.node.type).toBe('li');
   })
 
   it('ItemDisplay children should be a span element', () => {
-    const children = output.props.children[0];
-    expect(children.type).toBe('span');
+    expect(wrapper.find('span').length).toBe(1);
   })
 
   it('ItemDisplay children(span) should have class: delete-item', () => {
-    const children = output.props.children[0];
-    expect(children.props.className).toBe('delete-item');
+    expect(wrapper.find('span').node.props.className).toBe('delete-item');
   })
 });

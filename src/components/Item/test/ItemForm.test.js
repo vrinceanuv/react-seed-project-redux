@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {shallow} from 'enzyme';
 import {ItemForm} from '../ItemForm';
 
 const setup = () => {
@@ -9,34 +9,21 @@ const setup = () => {
     currentItem: ''
   };
 
-  const renderer = new ReactShallowRenderer();
-  renderer.render(<ItemForm {...props}/>);
-
-  let output = renderer.getRenderOutput();
-
-  return {
-    props,
-    output,
-    renderer
-  }
+  return shallow(<ItemForm {...props}/>);
 }
 
 describe('Testing ItemForm stateless component markup', () => {
-  const { output } = setup();
+  const wrapper = setup();
 
   it('ItemForm should Render and to be a form element', () => {
-    expect(output.type).toBe('form');
+    expect(wrapper.node.type).toBe('form');
   })
 
   it('ItemForm children should be a input element', () => {
-    let input = output.props.children;
-
-    expect(input.type).toBe('input');
+    expect(wrapper.find('input').length).toBe(1);
   })
 
   it('ItemForm input should be type text', () => {
-    let inputProps = output.props.children.props;
-
-    expect(inputProps.type).toBe('text');
+    expect(wrapper.find('input').node.props.type).toBe('text');
   })
 });

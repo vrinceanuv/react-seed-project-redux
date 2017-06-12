@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {shallow} from 'enzyme';
 import {ItemList} from '../ItemList';
 
 const setup = () => {
@@ -13,32 +13,22 @@ const setup = () => {
     handleRemove: () => {}
   };
 
-  const renderer = new ReactShallowRenderer();
-  renderer.render(<ItemList {...props}/>);
-
-  let output = renderer.getRenderOutput();
-
-  return {
-    props,
-    output,
-    renderer
-  }
+  return shallow(<ItemList {...props}/>);
 }
+
 describe('Testing ItemList stateless component markup', () => {
-  const { output } = setup();
+  const wrapper = setup();
 
   it('ItemList should Render and should be a div', () => {
-    expect(output.type).toBe('div');
+    expect(wrapper.node.type).toBe('div');
   })
 
   it('ItemList should have class: Item-List', () => {
-    expect(output.props.className).toBe('Item-List');
+    expect(wrapper.node.props.className).toBe('Item-List');
   })
 
   it('ItemList children should be ul', () => {
-    let ul = output.props.children;
-
-    expect(ul.type).toBe('ul');
+    expect(wrapper.find('ul').length).toBe(1);
   })
 
 });
