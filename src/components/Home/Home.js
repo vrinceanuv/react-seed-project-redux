@@ -7,7 +7,7 @@ import {createItem, deleteItem} from '../../libs/ajax';
 import {generateId} from '../../libs/utils';
 import * as actions from '../../actions';
 
-class Home extends Component {
+export class Home extends Component {
   handleRemove = (id, event) => {
     event.preventDefault()
 
@@ -61,7 +61,6 @@ class Home extends Component {
 
   render() {
     const submitHandler = this.props.currentItem ? this.handleSubmit : this.handleEmptySubmit
-    console.log(this.props);
 
     return (
       <div className="App">
