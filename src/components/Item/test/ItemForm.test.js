@@ -15,15 +15,15 @@ const setup = () => {
 describe('Testing ItemForm stateless component markup', () => {
   const wrapper = setup();
 
-  it('ItemForm should Render and to be a form element', () => {
+  it('should Render and should be a form element', () => {
     expect(wrapper.node.type).toBe('form');
   })
 
-  it('ItemForm children should be a input element', () => {
+  it('should have a children which is a input element', () => {
     expect(wrapper.find('input').length).toBe(1);
   })
 
-  it('ItemForm input should be type text', () => {
+  it('should have a children(input) that should be of type text', () => {
     expect(wrapper.find('input').node.props.type).toBe('text');
   })
 });

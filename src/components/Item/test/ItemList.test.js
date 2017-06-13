@@ -19,15 +19,15 @@ const setup = () => {
 describe('Testing ItemList stateless component markup', () => {
   const wrapper = setup();
 
-  it('ItemList should Render and should be a div', () => {
+  it('should Render and should be a div', () => {
     expect(wrapper.node.type).toBe('div');
   })
 
-  it('ItemList should have class: Item-List', () => {
+  it('should have class: Item-List', () => {
     expect(wrapper.node.props.className).toBe('Item-List');
   })
 
-  it('ItemList children should be ul', () => {
+  it('should have a children which is a ul element', () => {
     expect(wrapper.find('ul').length).toBe(1);
   })
 

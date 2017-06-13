@@ -15,15 +15,15 @@ const setup = () => {
 describe('Testing ItemDisplay stateless component markup', () => {
   const wrapper = setup();
 
-  it('ItemDisplay should Render and to be a li element', () => {
+  it('should Render and to be a li element', () => {
     expect(wrapper.node.type).toBe('li');
   })
 
-  it('ItemDisplay children should be a span element', () => {
+  it('should have a children which is a span element', () => {
     expect(wrapper.find('span').length).toBe(1);
   })
 
-  it('ItemDisplay children(span) should have class: delete-item', () => {
+  it('should have a children(span) with class: delete-item', () => {
     expect(wrapper.find('span').node.props.className).toBe('delete-item');
   })
 });
