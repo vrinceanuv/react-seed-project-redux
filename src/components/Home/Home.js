@@ -6,57 +6,50 @@ import {ItemList, ItemForm} from '../Item';
 import {createItem, deleteItem} from '../../libs/ajax';
 import {generateId} from '../../libs/utils';
 import * as actions from '../../actions';
+import * as messageTypes from '../../constants/messageTypes';
 
 export class Home extends Component {
-  handleRemove = (id, event) => {
-    event.preventDefault()
-
-    const succesMessage = {'type': 'success', 'text': 'Item removed!'}
-    const errorMessage = {'type': 'error', 'text': 'There was an issue while removing your item!'}
-
-    deleteItem(id)
-      .then(() => {
-        this.props.actions.removeItem(id)
-        this.displayMessage(succesMessage);
-      },
-      () => { this.displayMessage(errorMessage) }
-    )
-  }
-
-  displayMessage = (message) => {
-    const clearMessage = {'type': null, 'message': ''}
-
-    this.props.actions.updateMessage(message)
-    setTimeout(() => this.props.actions.updateMessage(clearMessage), 2500)
-  }
-
   handleSubmit = (event) => {
     event.preventDefault()
 
     const newId = generateId()
     const newItem = {id: newId, name: this.props.currentItem}
-    const succesMessage = {'type': 'success', 'text': 'Item added!'}
-    const errorMessage = {'type': 'error', 'text': 'There was an issue adding your item!'}
 
     createItem(newItem)
       .then(
         () => {
           this.props.actions.addItem(newItem)
-          this.displayMessage(succesMessage);
+          this.displayMessage(messageTypes.MESSAGE_ADD_SUCCESS);
         },
-        () => { this.displayMessage(errorMessage) }
+        () => { this.displayMessage(messageTypes.MESSAGE_ADD_ERROR) }
       )
   }
 
   handleEmptySubmit = (event) => {
     event.preventDefault()
 
-    const errorMessage = {'type': 'error', 'text': 'Please enter item name'}
-    this.displayMessage(errorMessage);
+    this.displayMessage(messageTypes.MESSAGE_EMPTY_ITEM_ERROR)
+  }
+
+  handleRemove = (id, event) => {
+    event.preventDefault()
+
+    deleteItem(id)
+      .then(() => {
+        this.props.actions.removeItem(id)
+        this.displayMessage(messageTypes.MESSAGE_REMOVE_SUCCESS)
+      },
+      () => { this.displayMessage(messageTypes.MESSAGE_REMOVE_ERROR) }
+    )
   }
 
   handleInputValue = (event) => {
     this.props.actions.updateCurrentItem(event.currentTarget.value)
+  }
+
+  displayMessage = (message) => {
+    this.props.actions.updateMessage(message)
+    setTimeout(() => this.props.actions.updateMessage(messageTypes.MESSAGE_EMPTY), 2500)
   }
 
   render() {
@@ -70,7 +63,7 @@ export class Home extends Component {
 
         {this.props.loaded &&
           <div className="Item-App">
-            {this.props.message &&
+            {this.props.message && this.props.message.type &&
               <span className={this.props.message.type + '-message'}>{this.props.message.text}</span>
             }
             <ItemForm
