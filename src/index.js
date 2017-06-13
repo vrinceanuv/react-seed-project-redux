@@ -6,7 +6,7 @@ import {loadItems} from './libs/ajax';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import NotFound from './components/NotFound/NotFound';
-import {Header} from './components/Header';
+import {Header} from './components/Header/Header';
 import './index.css';
 // Import routing components
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
