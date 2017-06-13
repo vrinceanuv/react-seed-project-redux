@@ -22,6 +22,7 @@ $ npm run test
 - Local mock server
 - Router
 - 404 page (eg: http://localhost:3000/TryToFindMe)
+- Redux (store, actions, reducers)
 
 ## Get deploy code
 ```
