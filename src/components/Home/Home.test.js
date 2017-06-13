@@ -12,7 +12,7 @@ const setup = (loaded) => {
   return shallow(<Home {...props}/>);
 }
 
-describe('Testing Home component markup when not loaded', () => {
+describe('Testing Home component markup when data is not loaded', () => {
   const wrapper = setup(false);
   const loader = wrapper.find('.loader');
   const app = wrapper.find('.Item-App');
@@ -38,7 +38,7 @@ describe('Testing Home component markup when not loaded', () => {
   })
 });
 
-describe('Testing Home component markup when loaded', () => {
+describe('Testing Home component markup when data is loaded', () => {
   const wrapper = setup(true);
   const loader = wrapper.find('.loader');
   const app = wrapper.find('.Item-App')
