@@ -123,4 +123,17 @@ describe('currentItem Reducer', () => {
       expect(newState).not.toEqual(initialState);
     })
   })
+
+  // DEFAULT CASE
+  describe('Default case', () => {
+    it('should return the same state', () => {
+      const initialState = [
+        { id: 1, name: 'Setup React Project' }
+      ];
+
+      const newState = itemReducer(initialState, {type: null});
+
+      expect(newState).toEqual(initialState);
+    })
+  })
 })

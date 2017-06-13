@@ -10,4 +10,11 @@ describe('currentItem Reducer', () => {
 
     expect(newState).toBe(newItem);
   })
+
+  it('should return the same state in the default case', () => {
+    const initialState = 'Same state';
+    const newState = currentItemReducer(initialState, {type: null});
+
+    expect(newState).toBe(initialState);
+  })
 })

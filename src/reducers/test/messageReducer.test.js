@@ -10,4 +10,11 @@ describe('updateMessage Reducer', () => {
 
     expect(newState).not.toBe(initialState);
   })
+
+  it('should return the same state in the default case', () => {
+    const initialState = {type: null, text: ''};
+    const newState = messageReducer(initialState, {type: null});
+
+    expect(newState).toBe(initialState);
+  })
 })

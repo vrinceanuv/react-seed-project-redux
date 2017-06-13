@@ -10,4 +10,11 @@ describe('loader Reducer', () => {
 
     expect(newState).toBe(newLoaderState);
   })
+
+  it('should return the same state in the default case', () => {
+    const initialState = false;
+    const newState = loaderReducer(initialState, {type: null});
+
+    expect(newState).toBe(initialState);
+  })
 })
