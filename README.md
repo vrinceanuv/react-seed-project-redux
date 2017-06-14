@@ -14,6 +14,7 @@ $ npm install -g json-server
 $ json-server -p 8080 --watch data.json
 $ npm run start
 $ npm run test
+$ npm run test-coverage
 ```
 
 ## Features
