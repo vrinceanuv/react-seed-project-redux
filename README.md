@@ -16,10 +16,14 @@ $ npm run start
 $ npm run test
 $ npm run test-coverage
 ```
+## What can you do in the app
+- Add item
+- Remove item
+- Edit item (by clicking on it, click enter after you finish updating it)
 
 ## Features
 - Loading spinner (home component only)
-- Items list (add item, delete item)
+- Items list
 - Local mock server
 - Router
 - 404 page (eg: http://localhost:3000/TryToFindMe)
