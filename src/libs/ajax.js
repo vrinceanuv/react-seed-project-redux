@@ -25,6 +25,17 @@ export const createItem = (item) => {
   }).then(response => response.json())
 }
 
+export const updateItem = (item) => {
+  return fetch(`${baseURL}/${item.id}`, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(item)
+  }).then(response => response.json())
+}
+
 export const deleteItem = (id) => {
   return fetch(`${baseURL}/${id}`, {
     method: 'DELETE',

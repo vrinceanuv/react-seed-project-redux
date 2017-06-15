@@ -1,0 +1,44 @@
+.Item-List {
+  margin-top: 35px;
+}
+
+input {
+  font-size: 16px;
+  line-height: 20px;
+  padding: 3px;
+  border: 1px solid #BDC3C7;
+
+  &:focus {
+    border: 1px solid darken(#95A5A6, 20%);
+    outline: none;
+  }
+}
+
+ul {
+  padding: 0;
+  margin-left: -10px;
+}
+
+li {
+  list-style-type: none;
+  line-height: 20px;
+
+  span.delete-item {
+    visibility: hidden;
+
+    a {
+      text-decoration: none;
+      color: red;
+    }
+  }
+
+  &:hover {
+    span.delete-item {
+      visibility: visible;
+    }
+  }
+
+  form {
+    margin-left: 10px;
+  }
+}

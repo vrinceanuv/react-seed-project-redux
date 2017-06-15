@@ -17,36 +17,9 @@
 }
 
 .Item-App {
-  padding-top: 20px;
+  margin-top: 35px;
   display: inline-block;
   text-align: left;
-}
-
-input {
-  font-size: 20px;
-}
-
-ul {
-  padding: 0;
-}
-
-li {
-  list-style-type: none;
-
-  span.delete-item {
-    visibility: hidden;
-
-    a {
-      text-decoration: none;
-      color: red;
-    }
-  }
-
-  &:hover {
-    span.delete-item {
-      visibility: visible;
-    }
-  }
 }
 
 .error-message {

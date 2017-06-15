@@ -47,8 +47,8 @@ describe('currentItem Reducer', () => {
   describe('REMOVE_ITEM', () => {
     it('should remove an item when passed REMOVE_ITEM', () => {
       const initialState = [
-        { id: 1, name: 'Setup React Project' },
-        { id: 19309, name: 'Add some items' },
+        { id: 1, name: 'Setup React Project', editable: false },
+        { id: 19309, name: 'Add some items', editable: false },
       ];
 
       const id = 1;
@@ -62,14 +62,14 @@ describe('currentItem Reducer', () => {
 
     it('should not mutate when remove an item when passed REMOVE_ITEM', () => {
       const initialState = [
-        { id: 1, name: 'Setup React Project' },
-        { id: 19309, name: 'Add some items' },
+        { id: 1, name: 'Setup React Project', editable: false },
+        { id: 19309, name: 'Add some items', editable: false },
       ];
 
       const id = 1;
 
       const expectedState = [
-        { id: 19309, name: 'Add some items' },
+        { id: 19309, name: 'Add some items', editable: false },
       ];
 
       const action = actions.removeItem(id);
@@ -99,20 +99,20 @@ describe('currentItem Reducer', () => {
 
     it('should not mutate when update data(items) when passed UPDATE_DATA', () => {
       const initialState = [
-        { id: 345, name: 'item existent' },
-        { id: 6987, name: 'item is in state' },
+        { id: 345, name: 'item existent', editable: false },
+        { id: 6987, name: 'item is in state', editable: false },
       ];
 
       const items = [
-        { id: 1, name: 'Setup React Project' },
-        { id: 19309, name: 'Add some items' },
+        { id: 1, name: 'Setup React Project', editable: false },
+        { id: 19309, name: 'Add some items', editable: false },
       ];
 
       const expectedState = [
-        { id: 345, name: 'item existent' },
-        { id: 6987, name: 'item is in state' },
-        { id: 1, name: 'Setup React Project' },
-        { id: 19309, name: 'Add some items' },
+        { id: 345, name: 'item existent', editable: false },
+        { id: 6987, name: 'item is in state', editable: false },
+        { id: 1, name: 'Setup React Project', editable: false },
+        { id: 19309, name: 'Add some items', editable: false },
       ];
 
       const action = actions.updateItems(items);
@@ -121,6 +121,60 @@ describe('currentItem Reducer', () => {
       expect(newState.length).toEqual(4);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toEqual(initialState);
+    })
+  })
+
+  // MAKE_ITEM_EDITABLE
+  describe('MAKE_ITEM_EDITABLE', () => {
+    it('should update item from data(items) when passed MAKE_ITEM_EDITABLE', () => {
+      const initialState = [
+        { id: 345, name: 'item existent', editable: false },
+        { id: 6987, name: 'item is in state', editable: false },
+      ];
+
+      const id = 345;
+      const findIndex = initialState.findIndex(item => item.id === id)
+      const item = initialState.find(item => item.id === id)
+
+      const updatedItem = Object.assign(item, {editable: true})
+
+      const expectedState = [
+        ...initialState.slice(0, findIndex),
+        updatedItem,
+        ...initialState.slice(findIndex + 1)
+      ];
+
+      const action = actions.makeItemEditable(id);
+      const newState = itemReducer(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    })
+  })
+
+  // UPDATE_CHANGED_ITEMS
+  describe('UPDATE_CHANGED_ITEMS', () => {
+    it('should update item from data(items) when passed UPDATE_CHANGED_ITEMS', () => {
+      const initialState = [
+        { id: 345, name: 'item existent', editable: false },
+        { id: 6987, name: 'item is in state', editable: false },
+      ];
+
+      const id = 345;
+      const findIndex = initialState.findIndex(item => item.id === id)
+      const item = initialState.find(item => item.id === id)
+
+      const updatedItem = Object.assign(item, {editable: false, name: 'abc'})
+
+      const expectedState = [
+        ...initialState.slice(0, findIndex),
+        updatedItem,
+        ...initialState.slice(findIndex + 1)
+      ];
+
+      const action = actions.updateChangedItems(updatedItem);
+      const newState = itemReducer(initialState, action);
+
+      expect(newState).toEqual(expectedState);
     })
   })
 

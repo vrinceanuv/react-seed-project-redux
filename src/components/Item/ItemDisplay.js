@@ -3,13 +3,25 @@ import PropTypes from 'prop-types';
 import {partial} from '../../libs/utils';
 
 export const ItemDisplay = (props) => {
-  const handleRemove = partial(props.handleRemove, props.id)
+  const remove = partial(props.handleRemove, props.id)
+  const item = {
+    id: props.id,
+    name: props.name,
+    editable: props.editable
+  }
+
   return (
     <li>
-      <span className="delete-item">
-        <a href="#" onClick={handleRemove}>X</a>
-      </span>
-      {props.name}
+      {!item.editable && <div>
+        <span className="delete-item">
+          <a href="#" onClick={remove}>X</a>
+        </span>
+        <span onClick={() => props.handleEditable(item.id)}>{item.name}</span>
+      </div> }
+
+      {item.editable && <form onSubmit={props.handleSubmitChanges}>
+        <input type="text" defaultValue={item.name} onChange={(event) => props.handleEditChanges(item, event)}/>
+      </form> }
     </li>
   )
 }

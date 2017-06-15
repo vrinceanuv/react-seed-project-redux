@@ -8,6 +8,14 @@ export const removeItem = (id) => {
   return { type: types.REMOVE_ITEM, id }
 }
 
+export const makeItemEditable = (id) => {
+  return { type: types.MAKE_ITEM_EDITABLE, id }
+}
+
+export const updateChangedItems = (item) => {
+  return { type: types.UPDATE_CHANGED_ITEMS, item }
+}
+
 export const updateItems = (items) => {
   return { type: types.UPDATE_DATA, items }
 }

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import './Home.css';
 import {ItemList, ItemForm} from '../Item';
-import {createItem, deleteItem} from '../../libs/ajax';
+import {createItem, updateItem, deleteItem} from '../../libs/ajax';
 import {generateId} from '../../libs/utils';
 import * as actions from '../../actions';
 import * as messageTypes from '../../constants/messageTypes';
@@ -13,13 +13,14 @@ export class Home extends Component {
     event.preventDefault()
 
     const newId = generateId()
-    const newItem = {id: newId, name: this.props.currentItem}
+    const newItem = {id: newId, name: this.props.currentItem, editable: false}
 
     createItem(newItem)
       .then(
         () => {
           this.props.actions.addItem(newItem)
           this.displayMessage(messageTypes.MESSAGE_ADD_SUCCESS);
+          this.props.actions.updateCurrentItem('')
         },
         () => { this.displayMessage(messageTypes.MESSAGE_ADD_ERROR) }
       )
@@ -41,6 +42,26 @@ export class Home extends Component {
       },
       () => { this.displayMessage(messageTypes.MESSAGE_REMOVE_ERROR) }
     )
+  }
+
+  handleEditable = (id) => {
+    this.props.actions.makeItemEditable(id)
+  }
+
+  handleEditChanges = (item, event) => {
+    const itemValue = event.currentTarget.value;
+    const updatedItem = Object.assign(item, {name: itemValue})
+
+    this.props.actions.updateEditableItem(updatedItem)
+  }
+
+  handleSubmitChanges = (event) => {
+    event.preventDefault()
+    updateItem(this.props.editableItem)
+      .then(() => {
+        this.props.actions.updateChangedItems(this.props.editableItem)
+      })
+
   }
 
   handleInputValue = (event) => {
@@ -72,6 +93,9 @@ export class Home extends Component {
               currentItem={this.props.currentItem}/>
 
             <ItemList items={this.props.items}
+              handleEditable={this.handleEditable}
+              handleEditChanges={this.handleEditChanges}
+              handleSubmitChanges={this.handleSubmitChanges}
               handleRemove={this.handleRemove}/>
 
           </div>
@@ -86,7 +110,8 @@ const mapStateToProps = (state, ownProps) => {
     items: state.items,
     currentItem: state.currentItem,
     loaded: state.loaded,
-    message: state.message
+    message: state.message,
+    editableItem: state.editableItem
   };
 }
 

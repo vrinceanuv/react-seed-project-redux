@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export const ItemForm = (props) => (
   <form onSubmit={props.handleSubmit}>
     <input type="text"
+        placeholder="Type an item name"
         onChange={props.handleInputValue}
         value={props.currentItem}/>
   </form>
