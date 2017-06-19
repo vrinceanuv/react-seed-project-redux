@@ -1,12 +1,10 @@
+import api from 'superagent-wrapper';
 import * as actions from '../actions';
-
-// The url to your API server
-const baseURL = 'http://localhost:8080/items'
+import * as url from '../constants/apiConstants'
 
 export const loadItems = () => {
   return function (dispatch) {
-    return fetch(baseURL)
-      .then(items => items.json())
+    return api.get(url.ITEMS_URL)
       .then(items => {
         dispatch(actions.updateItems(items))
         dispatch(actions.updateLoader(true))
@@ -15,33 +13,13 @@ export const loadItems = () => {
 }
 
 export const createItem = (item) => {
-  return fetch(baseURL, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(item)
-  }).then(response => response.json())
+  return api.post(url.ITEMS_URL, item)
 }
 
 export const updateItem = (item) => {
-  return fetch(`${baseURL}/${item.id}`, {
-    method: 'PUT',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(item)
-  }).then(response => response.json())
+  return api.put(`${url.ITEMS_URL}/${item.id}`, item)
 }
 
 export const deleteItem = (id) => {
-  return fetch(`${baseURL}/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-  })
+  return api.del(`${url.ITEMS_URL}/${id}`)
 }
