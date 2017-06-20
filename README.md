@@ -20,6 +20,7 @@ $ npm run test-coverage
 - Add item
 - Remove item
 - Edit item (by clicking on it, click enter after you finish updating it)
+- Cancel item editing (click an item, edit and press "Esc" key)
 
 ## Features
 - Loading spinner (home component only)
