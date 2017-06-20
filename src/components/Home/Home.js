@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import './Home.css';
 import {ItemList, ItemForm} from '../Item';
 import {createItem, updateItem, deleteItem} from '../../libs/ajax';
@@ -12,65 +11,42 @@ export class Home extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
 
-    const newId = generateId()
-    const newItem = {id: newId, name: this.props.currentItem, editable: false}
+    const id = generateId()
+    const item = {id, name: this.props.currentItem, editable: false}
 
-    createItem(newItem)
-      .then(
-        () => {
-          this.props.actions.addItem(newItem)
-          this.displayMessage(messageTypes.MESSAGE_ADD_SUCCESS);
-          this.props.actions.updateCurrentItem('')
-        },
-        () => { this.displayMessage(messageTypes.MESSAGE_ADD_ERROR) }
-      )
+    this.props.createItem(item)
   }
 
   handleEmptySubmit = (event) => {
     event.preventDefault()
 
-    this.displayMessage(messageTypes.MESSAGE_EMPTY_ITEM_ERROR)
+    this.props.updateMessage(messageTypes.MESSAGE_EMPTY_ITEM_ERROR)
+    setTimeout(() => this.props.actions.updateMessage(messageTypes.MESSAGE_EMPTY), 2500)
   }
 
   handleRemove = (id, event) => {
     event.preventDefault()
-
-    deleteItem(id)
-      .then(() => {
-        this.props.actions.removeItem(id)
-        this.displayMessage(messageTypes.MESSAGE_REMOVE_SUCCESS)
-      },
-      () => { this.displayMessage(messageTypes.MESSAGE_REMOVE_ERROR) }
-    )
+    this.props.deleteItem(id)
   }
 
   handleEditable = (id) => {
-    this.props.actions.makeItemEditable(id)
+    this.props.makeItemEditable(id)
   }
 
   handleEditChanges = (item, event) => {
     const itemValue = event.currentTarget.value;
     const updatedItem = Object.assign(item, {name: itemValue})
 
-    this.props.actions.updateEditableItem(updatedItem)
+    this.props.updateEditableItem(updatedItem)
   }
 
   handleSubmitChanges = (event) => {
     event.preventDefault()
-    updateItem(this.props.editableItem)
-      .then(() => {
-        this.props.actions.updateChangedItems(this.props.editableItem)
-      })
-
+    this.props.updateItem(this.props.editableItem)
   }
 
   handleInputValue = (event) => {
-    this.props.actions.updateCurrentItem(event.currentTarget.value)
-  }
-
-  displayMessage = (message) => {
-    this.props.actions.updateMessage(message)
-    setTimeout(() => this.props.actions.updateMessage(messageTypes.MESSAGE_EMPTY), 2500)
+    this.props.updateCurrentItem(event.currentTarget.value)
   }
 
   render() {
@@ -117,7 +93,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    createItem: item => dispatch(createItem(item)),
+    updateItem: item => dispatch(updateItem(item)),
+    deleteItem: id => dispatch(deleteItem(id)),
+    updateMessage: message => dispatch(actions.updateMessage(message)),
+    makeItemEditable: value => dispatch(actions.makeItemEditable(value)),
+    updateCurrentItem: value => dispatch(actions.updateCurrentItem(value)),
+    updateEditableItem: value => dispatch(actions.updateEditableItem(value))
   }
 }
 

@@ -14,5 +14,8 @@ export const MESSAGE_REMOVE_ERROR = {type: MESSAGE_ERROR_TYPE, text: 'There was 
 // Empty item validation
 export const MESSAGE_EMPTY_ITEM_ERROR = {type: MESSAGE_ERROR_TYPE, text: 'Please enter item name'}
 
+// Error updating item
+export const MESSAGE_UPDATE_ERROR = {type: MESSAGE_ERROR_TYPE, text: 'There was an error while updating your item'}
+
 // Empty message
 export const MESSAGE_EMPTY = {type: MESSAGE_EMPTY_TYPE, text: ''};
