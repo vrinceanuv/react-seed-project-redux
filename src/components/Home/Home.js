@@ -34,7 +34,7 @@ export class Home extends Component {
   }
 
   handleEditChanges = (item, event) => {
-    const itemValue = event.currentTarget.value;
+    const itemValue = event.currentTarget.value
     const updatedItem = Object.assign(item, {name: itemValue})
 
     this.props.updateEditableItem(updatedItem)
@@ -47,6 +47,12 @@ export class Home extends Component {
 
   handleInputValue = (event) => {
     this.props.updateCurrentItem(event.currentTarget.value)
+  }
+
+  handleCancel = (event) => {
+    if(event.keyCode === 27) {
+      this.props.cancelEdit(this.props.items)
+    }
   }
 
   render() {
@@ -72,6 +78,7 @@ export class Home extends Component {
               handleEditable={this.handleEditable}
               handleEditChanges={this.handleEditChanges}
               handleSubmitChanges={this.handleSubmitChanges}
+              handleCancel={this.handleCancel}
               handleRemove={this.handleRemove}/>
 
           </div>
@@ -99,7 +106,8 @@ const mapDispatchToProps = dispatch => {
     updateMessage: message => dispatch(actions.updateMessage(message)),
     makeItemEditable: value => dispatch(actions.makeItemEditable(value)),
     updateCurrentItem: value => dispatch(actions.updateCurrentItem(value)),
-    updateEditableItem: value => dispatch(actions.updateEditableItem(value))
+    updateEditableItem: value => dispatch(actions.updateEditableItem(value)),
+    cancelEdit: () => dispatch(actions.cancelEdit())
   }
 }
 

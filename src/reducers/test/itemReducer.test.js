@@ -151,6 +151,29 @@ describe('currentItem Reducer', () => {
     })
   })
 
+  // CANCEL_EDIT
+  describe('CANCEL_EDIT', () => {
+    it('should make false editable and not change name when passed CANCEL_EDIT', () => {
+      const initialState = [
+        { id: 345, name: 'item existent', editable: false },
+        { id: 6987, name: 'item is in state', editable: true },
+      ];
+
+      const expectedState = initialState.map(item => {
+        if(item.editable) {
+          return Object.assign(item, {editable: false})
+        }
+
+        return item;
+      })
+
+      const action = actions.cancelEdit();
+      const newState = itemReducer(initialState, action);
+
+      expect(newState).toEqual(expectedState);
+    })
+  })
+
   // UPDATE_CHANGED_ITEMS
   describe('UPDATE_CHANGED_ITEMS', () => {
     it('should update item from data(items) when passed UPDATE_CHANGED_ITEMS', () => {

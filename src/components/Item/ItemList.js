@@ -8,11 +8,7 @@ export const ItemList = (props) => {
     <div className="Item-List">
       <ul>
         {props.items.map( (item, index) =>
-          <ItemDisplay key={index} {...item}
-            handleEditable={props.handleEditable}
-            handleEditChanges={props.handleEditChanges}
-            handleSubmitChanges={props.handleSubmitChanges}
-            handleRemove={props.handleRemove} />
+          <ItemDisplay key={index} {...item} {...props} />
         )}
       </ul>
     </div>

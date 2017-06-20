@@ -41,6 +41,14 @@ const itemReducer = (state = [], action) => {
         ...state.slice(currentItemId + 1)
       ]
 
+    case types.CANCEL_EDIT:
+      return state.map(item => {
+        if(item.editable) {
+          return Object.assign(item, {editable: false})
+        }
+        return item;
+      })
+
     case types.UPDATE_DATA:
       return [...state, ...action.items];
 

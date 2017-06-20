@@ -20,7 +20,10 @@ export const ItemDisplay = (props) => {
       </div> }
 
       {item.editable && <form onSubmit={props.handleSubmitChanges}>
-        <input type="text" defaultValue={item.name} onChange={(event) => props.handleEditChanges(item, event)}/>
+        <input type="text"
+          defaultValue={item.name}
+          onKeyDown={props.handleCancel}
+          onChange={(event) => props.handleEditChanges(item, event)}/>
       </form> }
     </li>
   )
@@ -28,5 +31,5 @@ export const ItemDisplay = (props) => {
 
 ItemDisplay.propTypes = {
   id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 }

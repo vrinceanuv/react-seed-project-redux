@@ -5,6 +5,9 @@ import {ItemDisplay} from '../ItemDisplay';
 const setup = (edit) => {
   let props = {
     handleRemove: () => {},
+    handleEditable: () => true,
+    handleCancel: () => true,
+    handleEditChanges: () => true,
     id: 0,
     name: 'abc',
     editable: edit
@@ -26,6 +29,7 @@ describe('Testing ItemDisplay stateless component markup', () => {
     })
 
     it('should have a second children which is a span element and has the text `abc`', () => {
+      expect(wrapper.find('span').last().node.props.onClick()).toBe(true);
       expect(wrapper.find('span').last().node.props.children).toBe('abc');
     })
 
@@ -47,6 +51,8 @@ describe('Testing ItemDisplay stateless component markup', () => {
 
     it('should have a children which is a input element', () => {
       expect(wrapper.find('input').length).toBe(1);
+      expect(wrapper.find('input').node.props.onKeyDown()).toBe(true);
+      expect(wrapper.find('input').node.props.onChange()).toBe(true);
     })
   })
 });

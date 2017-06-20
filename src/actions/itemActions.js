@@ -19,3 +19,7 @@ export const updateChangedItems = (item) => {
 export const updateItems = (items) => {
   return { type: types.UPDATE_DATA, items }
 }
+
+export const cancelEdit = () => {
+  return { type: types.CANCEL_EDIT }
+}
