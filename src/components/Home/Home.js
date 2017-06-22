@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import './Home.css';
 import {ItemList, ItemForm} from '../Item';
 import {createItem, updateItem, deleteItem} from '../../libs/ajax';
@@ -30,14 +31,14 @@ export class Home extends Component {
   }
 
   handleEditable = (id) => {
-    this.props.makeItemEditable(id)
+    this.props.actions.makeItemEditable(id)
   }
 
   handleEditChanges = (item, event) => {
     const itemValue = event.currentTarget.value
     const updatedItem = Object.assign(item, {name: itemValue})
 
-    this.props.updateEditableItem(updatedItem)
+    this.props.actions.updateEditableItem(updatedItem)
   }
 
   handleSubmitChanges = (event) => {
@@ -46,12 +47,12 @@ export class Home extends Component {
   }
 
   handleInputValue = (event) => {
-    this.props.updateCurrentItem(event.currentTarget.value)
+    this.props.actions.updateCurrentItem(event.currentTarget.value)
   }
 
   handleCancel = (event) => {
     if(event.keyCode === 27) {
-      this.props.cancelEdit(this.props.items)
+      this.props.actions.cancelEdit(this.props.items)
     }
   }
 
@@ -103,11 +104,7 @@ const mapDispatchToProps = dispatch => {
     createItem: item => dispatch(createItem(item)),
     updateItem: item => dispatch(updateItem(item)),
     deleteItem: id => dispatch(deleteItem(id)),
-    updateMessage: message => dispatch(actions.updateMessage(message)),
-    makeItemEditable: value => dispatch(actions.makeItemEditable(value)),
-    updateCurrentItem: value => dispatch(actions.updateCurrentItem(value)),
-    updateEditableItem: value => dispatch(actions.updateEditableItem(value)),
-    cancelEdit: () => dispatch(actions.cancelEdit())
+    actions: bindActionCreators(actions, dispatch)
   }
 }
 
