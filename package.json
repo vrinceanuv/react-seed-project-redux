@@ -80,6 +80,7 @@
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
     ],
+    "coverageDirectory": "/coverage/",
     "testEnvironment": "node",
     "testURL": "http://localhost",
     "transform": {
