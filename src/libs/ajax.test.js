@@ -8,15 +8,23 @@ import * as types from '../constants/actionTypes';
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
+const item = { id: 19309, name: 'Add some items', editable: false };
+
 describe('Async calls', () => {
   afterEach(() => {
     nock.cleanAll();
   })
 
   it('should load items', (done) => {
+    const items = {
+      items: [
+        item
+      ]
+    };
+
     const expectedAction = [
       {type: types.UPDATE_LOADER},
-      {type: types.UPDATE_DATA, body: {items: [{ id: 19309, name: 'Add some items', editable:false }]}}
+      {type: types.UPDATE_DATA, body: items}
     ];
 
     const store = mockStore({items: []}, expectedAction);
@@ -33,7 +41,6 @@ describe('Async calls', () => {
 
   it('should add an item', (done) => {
     const id = generateId();
-    const item = { id, name: 'Add some items', editable: false };
 
     nock('http://localhost:8080/')
       .post('/items', item)
@@ -58,29 +65,51 @@ describe('Async calls', () => {
     })
   })
 
-  // TODO
-  // it('should remove an item', (done) => {
-  //   const item = { id: 48144, name: 'Add some items', editable: false };
-  //
-  //   nock('http://localhost:1233/')
-  //     .delete('/items', {id: item.id})
-  //
-  //   const expectedAction = [
-  //     {type: types.REMOVE_ITEM, body: {id: item.id}},
-  //     {type: types.UPDATE_MESSAGE, body: {message: { type: 'success', text: 'Item removed!' }}}
-  //   ];
-  //
-  //   const store = mockStore({items: [item]}, expectedAction);
-  //
-  //   store.dispatch(deleteItem(item.id)).then(() => {
-  //     const actions = store.getActions();
-  //
-  //     console.log(actions);
-  //
-  //     expect(actions[0].type).toEqual(types.REMOVE_ITEM);
-  //     expect(actions[1].type).toEqual(types.UPDATE_MESSAGE);
-  //
-  //     done();
-  //   })
-  // })
+  it('should remove an item', (done) => {
+    nock('http://localhost:8080/')
+      .delete('/items', {id: item.id})
+      .reply(200, {body: {items: []}})
+
+    const expectedAction = [
+      {type: types.REMOVE_ITEM, body: {}},
+      {type: types.UPDATE_MESSAGE, body: {message: { type: 'success', text: 'Item removed!' }}},
+    ];
+
+    const store = mockStore({items: [item]}, expectedAction);
+
+    store.dispatch(deleteItem(item.id)).then(() => {
+      const actions = store.getActions();
+
+      expect(actions[0].type).toEqual(types.REMOVE_ITEM);
+      expect(actions[1].type).toEqual(types.UPDATE_MESSAGE);
+
+      done();
+    }).catch(() => {
+      const actions = store.getActions();
+
+      expect(actions[0].type).toEqual(types.UPDATE_MESSAGE);
+      done();
+    })
+  })
+
+  it('should fail when trying to remove an item', (done) => {
+    nock('http://localhost:8080/')
+      .delete('/items', {id: item.id})
+      .reply(500, {body: {items: [item]}})
+
+    const expectedAction = [
+      {type: types.UPDATE_MESSAGE, body: {message: { type: 'error', text: 'There was an issue while removing your item!' }}}
+    ];
+
+    const store = mockStore({items: [item]}, expectedAction);
+
+    store.dispatch(deleteItem(item.id)).then(() => {
+      done();
+    }).catch(() => {
+      const actions = store.getActions();
+
+      expect(actions[0].type).toEqual(types.UPDATE_MESSAGE);
+      done();
+    })
+  })
 })
