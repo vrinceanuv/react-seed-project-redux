@@ -2,7 +2,7 @@ import api from 'superagent-wrapper';
 import {updateMessage} from './utils';
 import * as actions from '../actions';
 import * as url from '../constants/apiConstants';
-import * as messageTypes from '../constants/messageTypes'
+import * as messageTypes from '../constants/messageTypes';
 
 export const loadItems = () => dispatch => {
   return api.get(url.ITEMS_URL)
