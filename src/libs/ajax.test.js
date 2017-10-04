@@ -73,6 +73,7 @@ describe('Async calls', () => {
     const expectedAction = [
       {type: types.REMOVE_ITEM, body: {}},
       {type: types.UPDATE_MESSAGE, body: {message: { type: 'success', text: 'Item removed!' }}},
+      {type: types.UPDATE_MESSAGE, body: {message: { type: 'error', text: 'There was an issue while removing your item!' }}}
     ];
 
     const store = mockStore({items: [item]}, expectedAction);
@@ -83,27 +84,6 @@ describe('Async calls', () => {
       expect(actions[0].type).toEqual(types.REMOVE_ITEM);
       expect(actions[1].type).toEqual(types.UPDATE_MESSAGE);
 
-      done();
-    }).catch(() => {
-      const actions = store.getActions();
-
-      expect(actions[0].type).toEqual(types.UPDATE_MESSAGE);
-      done();
-    })
-  })
-
-  it('should fail when trying to remove an item', (done) => {
-    nock('http://localhost:8080/')
-      .delete('/items', {id: item.id})
-      .reply(500, {body: {items: [item]}})
-
-    const expectedAction = [
-      {type: types.UPDATE_MESSAGE, body: {message: { type: 'error', text: 'There was an issue while removing your item!' }}}
-    ];
-
-    const store = mockStore({items: [item]}, expectedAction);
-
-    store.dispatch(deleteItem(item.id)).then(() => {
       done();
     }).catch(() => {
       const actions = store.getActions();

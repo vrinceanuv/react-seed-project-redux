@@ -36,7 +36,7 @@ export const updateItem = item => dispatch => {
 
 export const deleteItem = id => dispatch => {
   return api.del(`${url.ITEMS_URL}/${id}`)
-    .then((items) => {
+    .then(() => {
       dispatch(actions.removeItem(id))
       updateMessage(dispatch, messageTypes.MESSAGE_REMOVE_SUCCESS)
     })

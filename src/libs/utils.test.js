@@ -1,4 +1,6 @@
-import {partial, generateId} from './utils'
+import * as actions from '../actions/messageActions';
+import * as types from '../constants/actionTypes';
+import {partial, generateId, updateMessage} from './utils'
 
 const add = (a, b) => a + b
 const addThree = (a, b, c) => a + b + c
@@ -25,6 +27,16 @@ describe('Testing utils', () => {
       const secondRandom = generateId();
 
       expect(firstRandom).not.toEqual(secondRandom);
+    })
+  })
+
+  describe('Testing utils updateMessage', () => {
+    it('updates the message to empty type', () => {
+      const message = {type: null, text: ''};
+      const expectedAction = { type: types.UPDATE_MESSAGE, message };
+      const action = actions.updateMessage(message);
+
+      expect(action).toEqual(expectedAction);
     })
   })
 })
